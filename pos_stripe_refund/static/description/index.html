@@ -1,378 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>POS Stripe Refund - Odoo App</title>
-  <style>
-    :root {
-      --odoo-primary: #875a7b;
-      --odoo-secondary: #00a09d;
-      --odoo-light: #f9f9f9;
-      --odoo-dark: #333333;
-      --odoo-highlight: #fff3cd;
-      --odoo-highlight-border: #ffc107;
-      --odoo-success: #28a745;
-      --odoo-info: #17a2b8;
-    }
-
-    body {
-      font-family: 'Roboto', Arial, sans-serif;
-      line-height: 1.6;
-      color: var(--odoo-dark);
-      margin: 0;
-      padding: 0;
-      background-color: var(--odoo-light);
-    }
-
-    .oe_container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 40px 20px;
-    }
-
-    .oe_row {
-      margin-bottom: 30px;
-    }
-
-    .oe_spaced {
-      margin-top: 20px;
-      margin-bottom: 20px;
-    }
-
-    .oe_slogan {
-      text-align: center;
-      margin-bottom: 30px;
-      color: var(--odoo-primary);
-    }
-
-    h1.oe_slogan {
-      font-size: 2.5rem;
-      font-weight: 700;
-    }
-
-    h2.oe_slogan {
-      font-size: 2rem;
-      margin-top: 50px;
-    }
-
-    h3.oe_slogan {
-      font-size: 1.5rem;
-      font-weight: 400;
-      margin-bottom: 40px;
-    }
-
-    p {
-      font-size: 16px;
-      margin-bottom: 20px;
-    }
-
-    ul, ol {
-      margin-left: 20px;
-      margin-bottom: 20px;
-    }
-
-    li {
-      margin-bottom: 10px;
-    }
-
-    a {
-      color: var(--odoo-secondary);
-      text-decoration: none;
-      font-weight: 500;
-      transition: all 0.3s ease;
-    }
-
-    a:hover {
-      color: var(--odoo-primary);
-      text-decoration: underline;
-    }
-
-    .highlight {
-      background-color: var(--odoo-highlight);
-      border-left: 4px solid var(--odoo-highlight-border);
-      padding: 15px;
-      margin: 30px 0;
-      border-radius: 0 8px 8px 0;
-    }
-
-    .support {
-      background-color: #e9ecef;
-      padding: 25px;
-      border-radius: 8px;
-      margin: 40px 0;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    img {
-      border-radius: 8px;
-      max-width: 100%;
-      height: auto;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease;
-    }
-
-    img:hover {
-      transform: scale(1.01);
-    }
-
-    .oe_demo {
-      text-align: center;
-      margin: 40px 0;
-    }
-
-    .oe_screenshot {
-      display: inline-block;
-    }
-
-    .feature-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 30px;
-      margin: 40px 0;
-    }
-
-    .feature-card {
-      background-color: white;
-      border-radius: 8px;
-      padding: 25px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      transition: all 0.3s ease;
-      height: 100%;
-    }
-
-    .feature-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    .feature-icon {
-      font-size: 2.5rem;
-      color: var(--odoo-primary);
-      margin-bottom: 15px;
-    }
-
-    .feature-title {
-      font-size: 1.3rem;
-      font-weight: 600;
-      margin-bottom: 15px;
-      color: var(--odoo-primary);
-    }
-
-    .step-container {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      margin: 30px 0;
-      gap: 30px;
-    }
-
-    .step-content {
-      flex: 1;
-      min-width: 300px;
-    }
-
-    .step-image {
-      flex: 1;
-      min-width: 500px;
-      text-align: center;
-    }
-
-    .step-number {
-      display: inline-block;
-      width: 40px;
-      height: 40px;
-      line-height: 40px;
-      text-align: center;
-      background-color: var(--odoo-primary);
-      color: white;
-      border-radius: 50%;
-      margin-right: 10px;
-      font-weight: bold;
-    }
-
-    .benefits-section {
-      background-color: #f0f4f8;
-      border-radius: 12px;
-      padding: 30px;
-      margin: 40px 0;
-    }
-
-    .cta-button {
-      display: inline-block;
-      background-color: var(--odoo-primary);
-      color: white;
-      padding: 12px 25px;
-      border-radius: 30px;
-      font-weight: 600;
-      text-align: center;
-      margin: 20px 0;
-      transition: all 0.3s ease;
-    }
-
-    .cta-button:hover {
-      background-color: #6d4763;
-      transform: translateY(-2px);
-      text-decoration: none;
-      color: white;
-    }
-
-    .footer-section {
-      background-color: #333;
-      color: white;
-      padding: 40px 20px;
-      text-align: center;
-      margin-top: 60px;
-    }
-
-    .footer-section a {
-      color: #fff;
-    }
-
-    @media (max-width: 768px) {
-      .step-container {
-        flex-direction: column;
-      }
-      
-      .step-image {
-        order: 1;
-      }
-      
-      .step-content {
-        order: 2;
-      }
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>POS Stripe Refund</title>
 </head>
-
 <body>
 
-  <!-- Header Banner Section -->
-  <section class="oe_container" style="background-color: #875a7b; padding: 60px 20px; color: white;">
-    <div class="oe_row">
-      <h1 class="oe_slogan" style="color: white; font-size: 3rem; margin-bottom: 10px;">POS Stripe Refund</h1>
-      <h3 class="oe_slogan" style="color: white; opacity: 0.9;">Seamless Refund Management for Your Odoo Point of Sale</h3>
-    </div>
-  </section>
+<!-- HEADER SECTION -->
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan" style="color:#875A7B;">POS Stripe Refund</h2>
+    <h3 class="oe_slogan">Seamless Refund Management for Your Odoo Point of Sale</h3>
+    <!-- <div class="oe_demo oe_picture oe_screenshot">
+      <img src="assets/overview_ipad_air_light.png" alt="POS Stripe Refund Overview">
+    </div> -->
+  </div>
+</section>
 
-  <!-- Introduction Section -->
-  <section class="oe_container">
-    <div class="oe_row oe_spaced">
-      <p style="font-size: 18px; text-align: center; max-width: 800px; margin: 0 auto;">
+<!-- INTRODUCTION SECTION -->
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12">
+      <p class="oe_mt32" style="text-align: center; font-size: 16px;">
         The <strong>POS Stripe Refund</strong> module revolutionizes how you handle refunds in your Odoo Point of Sale system. By integrating directly with Stripe's payment gateway, this module enables you to process refunds quickly and efficiently, all while maintaining accurate financial records and providing exceptional customer service.
       </p>
-      
-      <div class="highlight" style="max-width: 800px; margin: 30px auto; text-align: center;">
-        <strong style="font-size: 18px;">Process refunds in just a few clicks with real-time updates to both your Odoo system and Stripe account!</strong>
+      <div style="background-color: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 30px 0; text-align: center;">
+        <strong style="font-size: 16px;">Process refunds in just a few clicks with real-time updates to both your Odoo system and Stripe account!</strong>
       </div>
-
-      <!-- <div class="oe_demo oe_screenshot" style="max-width: 800px; margin: 0 auto;">
-        <img src="assets/overview_ipad_air_light.jpg" alt="POS Stripe Refund Overview" />
-      </div> -->
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- Key Benefits Section -->
-  <section class="oe_container" style="background-color: #f0f4f8;">
-    <h2 class="oe_slogan">Why Choose POS Stripe Refund?</h2>
+<!-- KEY FEATURES SECTION -->
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan" style="color:#875A7B;">Key Features</h2>
     
-    <div class="benefits-section">
-      <div class="feature-grid">
-        <!-- Time Saving -->
-        <div class="feature-card">
-          <div class="feature-icon">⏱️</div>
-          <div class="feature-title">Save Time</div>
-          <p>Process refunds directly from your POS interface without switching between systems or manual reconciliation.</p>
-        </div>
-        
-        <!-- Reduce Errors -->
-        <div class="feature-card">
-          <div class="feature-icon">✓</div>
-          <div class="feature-title">Reduce Errors</div>
-          <p>Automated refund processing eliminates manual entry errors and ensures accurate financial records.</p>
-        </div>
-        
-        <!-- Customer Satisfaction -->
-        <div class="feature-card">
-          <div class="feature-icon">😊</div>
-          <div class="feature-title">Improve Customer Experience</div>
-          <p>Provide fast, hassle-free refunds that enhance customer satisfaction and build trust in your business.</p>
-        </div>
+    <div class="oe_span6">
+      <div class="oe_demo oe_picture oe_screenshot">🔄
+        <!-- <img src="assets/feature_integration.png" alt="Seamless Integration"> -->
       </div>
+      <h3 class="oe_slogan" style="text-align: left; font-size: 16px; margin-left: 20px;">Seamless Stripe Integration</h3>
+      <p style="margin-left: 20px;">Direct integration with Stripe's payment gateway ensures refunds are processed instantly and reflected in both systems.</p>
     </div>
-  </section>
-
-  <!-- Features Section -->
-  <section class="oe_container">
-    <h2 class="oe_slogan">🚀 Key Features</h2>
     
-    <div class="feature-grid">
-      <!-- Seamless Stripe Integration -->
-      <div class="feature-card">
-        <div class="feature-icon">🔄</div>
-        <div class="feature-title">Seamless Stripe Integration</div>
-        <p>
-          Direct integration with Stripe's payment gateway ensures refunds are processed instantly and reflected in both systems.
-        </p>
+    <div class="oe_span6">
+      <div class="oe_demo oe_picture oe_screenshot">
+        <div class="feature-title">Detailed Sales Reports</div>📊
+        <!-- <img src="assets/feature_reports.png" alt="Detailed Reports"> -->
       </div>
-
-      <!-- Real-time Refund Processing -->
-      <div class="feature-card">
-        <div class="feature-icon">⚡</div>
-        <div class="feature-title">Real-time Refund Processing</div>
-        <p>
-          Process refunds instantly with real-time confirmation and status updates, eliminating delays and uncertainty.
-        </p>
-      </div>
-
-      <!-- Detailed Sales Reports -->
-      <div class="feature-card">
-        <div class="feature-icon">📊</div>
-        <div class="feature-title">Detailed Sales Reports</div>
-        <p>
-          Access comprehensive refund reports directly from the POS dashboard to track and analyze refund patterns.
-        </p>
-      </div>
-
-      <!-- Automatic Invoice Generation -->
-      <div class="feature-card">
-        <div class="feature-icon">📄</div>
-        <div class="feature-title">Automatic Invoice Generation</div>
-        <p>
-          Generate refund invoices automatically for accurate bookkeeping and simplified financial management.
-        </p>
-      </div>
-
-      <!-- Partial Refunds Support -->
-      <div class="feature-card">
-        <div class="feature-icon">🔢</div>
-        <div class="feature-title">Partial Refunds Support</div>
-        <p>
-          Easily process partial refunds for specific items or quantities while maintaining transaction integrity.
-        </p>
-      </div>
-
-      <!-- User-friendly Interface -->
-      <div class="feature-card">
-        <div class="feature-icon">🖥️</div>
-        <div class="feature-title">User-friendly Interface</div>
-        <p>
-          Intuitive design makes processing refunds simple for all staff members, regardless of technical expertise.
-        </p>
-      </div>
+      <h3 class="oe_slogan" style="text-align: left; font-size: 16px; margin-left: 20px;">Detailed Sales Reports</h3>
+      <p style="margin-left: 20px;">Access comprehensive refund reports directly from the POS dashboard to track and analyze refund patterns.</p>
     </div>
-  </section>
+  </div>
+  
+  <div class="oe_row oe_spaced">
+    <div class="oe_span6">
+      <div class="oe_demo oe_picture oe_screenshot">
+        📑
+        <!-- <img src="assets/feature_invoice.png" alt="Automatic Invoices"> -->
+      </div>
+      <h3 class="oe_slogan" style="text-align: left; font-size: 16px; margin-left: 20px;">Automatic Invoice Generation</h3>
+      <p style="margin-left: 20px;">Generate refund invoices automatically for accurate bookkeeping and simplified financial management.</p>
+    </div>
+    
+    <div class="oe_span6">
+      <div class="oe_demo oe_picture oe_screenshot">
+        💳
+        <!-- <img src="assets/feature_partial.png" alt="Partial Refunds"> -->
+      </div>
+      <h3 class="oe_slogan" style="text-align: left; font-size: 16px; margin-left: 20px;">Partial Refunds Support</h3>
+      <p style="margin-left: 20px;">Easily process partial refunds for specific items or quantities while maintaining transaction integrity.</p>
+    </div>
+    <!-- <div class="feature-card">
+      <div class="feature-icon">🖥️</div>
+      <div class="feature-title">User-friendly Interface</div>
+      <p>
+        Intuitive design makes processing refunds simple for all staff members, regardless of technical expertise.
+      </p>
+    </div> -->
+  </div>
+</section>
 
-  <!-- Step by Step Guide Section -->
-  <section class="oe_container">
-    <h2 class="oe_slogan">📖 Step-by-Step Implementation Guide</h2>
+<!-- STEP BY STEP GUIDE -->
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan" style="color:#875A7B;">Step-by-Step Implementation Guide</h2>
     
     <!-- Step 1: Image on RIGHT -->
-    <h3 style="color: #875a7b; margin-top: 40px;">Step 1: Set Up the POS and Restaurant Modules</h3>
-    <div class="step-container">
-      <div class="step-content">
+    <div class="oe_row oe_spaced">
+      <div class="oe_span6">
+        <h3 style="color: #875a7b;">Step 1: Set Up the POS and Restaurant Modules</h3>
         <p>Before implementing the POS Stripe Refund module, ensure your Odoo POS system is properly configured:</p>
         <ol>
           <li>Log in to your <strong>Odoo Dashboard</strong></li>
@@ -380,20 +99,23 @@
           <li>Search for and install the <strong>Point of Sale</strong> and <strong>Restaurant</strong> modules</li>
           <li>Configure your POS settings including restaurant layout, products, and user preferences</li>
         </ol>
-        <p>A properly configured POS system forms the foundation for seamless refund processing.</p>
       </div>
-      <!-- <div class="step-image">
-        <img src="assets/configure_pos.jpg" alt="Configure POS and Restaurant Modules" />
+      <!-- <div class="oe_span6">
+        <div class="oe_demo oe_picture oe_screenshot">
+          <img src="assets/configure_pos.png" alt="Configure POS and Restaurant Modules">
+        </div>
       </div> -->
     </div>
-
+    
     <!-- Step 2: Image on LEFT -->
-    <h3 style="color: #875a7b; margin-top: 40px;">Step 2: Configure Stripe on Odoo POS</h3>
-    <div class="step-container">
-      <div class="step-image">
-        <img src="assets/configure_stripe.jpg" alt="Configure Stripe in Odoo POS" />
+    <div class="oe_row oe_spaced">
+      <div class="oe_span6">
+        <div class="oe_demo oe_picture oe_screenshot">
+          <img src="assets/configure_stripe.jpg" alt="Configure Stripe in Odoo POS">
+        </div>
       </div>
-      <div class="step-content">
+      <div class="oe_span6">
+        <h3 style="color: #875a7b;">Step 2: Configure Stripe on Odoo POS</h3>
         <p>Integrate Stripe with your Odoo POS system by following these steps:</p>
         <ol>
           <li>Go to <strong>Point of Sale → Configuration → Payment Methods</strong></li>
@@ -403,14 +125,13 @@
           <li>Enter your <strong>Stripe API keys</strong> (publishable key and secret key)</li>
           <li>Click <strong>Save</strong> to complete the configuration</li>
         </ol>
-        <p>Proper Stripe configuration ensures secure and reliable payment processing.</p>
       </div>
     </div>
-
+    
     <!-- Step 3: Image on RIGHT -->
-    <h3 style="color: #875a7b; margin-top: 40px;">Step 3: Install the POS Stripe Refund Module</h3>
-    <div class="step-container">
-      <div class="step-content">
+    <div class="oe_row oe_spaced">
+      <div class="oe_span6">
+        <h3 style="color: #875a7b;">Step 3: Install the POS Stripe Refund Module</h3>
         <p>Install the POS Stripe Refund module to enable refund functionality:</p>
         <ol>
           <li>Go to the <strong>Apps</strong> menu in your Odoo dashboard</li>
@@ -419,20 +140,23 @@
           <li>Click <strong>Install</strong> to add the module to your system</li>
           <li>After installation, restart your POS session to apply the changes</li>
         </ol>
-        <p>The module seamlessly integrates with your existing POS and Stripe configurations.</p>
       </div>
-      <div class="step-image">
-        <img src="assets/install_module.png" alt="Install POS Stripe Refund Module" />
+      <div class="oe_span6">
+        <div class="oe_demo oe_picture oe_screenshot">
+          <img src="assets/install_module.png" alt="Install POS Stripe Refund Module">
+        </div>
       </div>
     </div>
-
+    
     <!-- Step 4: Image on LEFT -->
-    <h3 style="color: #875a7b; margin-top: 40px;">Step 4: Choose the Order to Refund</h3>
-    <div class="step-container">
-      <div class="step-image">
-        <img src="assets/select_order_to_refund.jpg" alt="Choose Order to Refund" />
+    <div class="oe_row oe_spaced">
+      <div class="oe_span6">
+        <div class="oe_demo oe_picture oe_screenshot">
+          <img src="assets/select_order_to_refund.jpg" alt="Choose Order to Refund">
+        </div>
       </div>
-      <div class="step-content">
+      <div class="oe_span6">
+        <h3 style="color: #875a7b;">Step 4: Choose the Order to Refund</h3>
         <p>To process a refund, first locate and select the order:</p>
         <ol>
           <li>Open your POS interface and click on the <strong>Refund</strong> button</li>
@@ -441,34 +165,36 @@
           <li>Choose the items and quantities to be refunded</li>
           <li>Click <strong>Confirm</strong> to proceed with the refund</li>
         </ol>
-        <p>The system allows you to refund specific items or entire orders based on your needs.</p>
       </div>
     </div>
-
+    
     <!-- Step 5: Image on RIGHT -->
-    <h3 style="color: #875a7b; margin-top: 40px;">Step 5: Go to the Payment Section</h3>
-    <div class="step-container">
-      <div class="step-content">
+    <div class="oe_row oe_spaced">
+      <div class="oe_span6">
+        <h3 style="color: #875a7b;">Step 5: Go to the Payment Section</h3>
         <p>After selecting the order, proceed to the payment section:</p>
         <ol>
           <li>The system will automatically create a refund order with negative amounts</li>
           <li>Review the refund details to ensure accuracy</li>
           <li>Click on the <strong>Payment</strong> button to proceed to payment processing</li>
         </ol>
-        <p>The payment screen will display the refund amount as a negative value, indicating money to be returned to the customer.</p>
       </div>
-      <div class="step-image">
-        <img src="assets/go_to_payment_section.png" alt="Go to Payment Section" />
+      <div class="oe_span6">
+        <div class="oe_demo oe_picture oe_screenshot">
+          <img src="assets/go_to_payment_section.png" alt="Go to Payment Section">
+        </div>
       </div>
     </div>
-
+    
     <!-- Step 6: Image on LEFT -->
-    <h3 style="color: #875a7b; margin-top: 40px;">Step 6: Choose Stripe and Process the Refund</h3>
-    <div class="step-container">
-      <div class="step-image">
-        <img src="assets/process_refund_with_stripe.jpg" alt="Process Refund with Stripe" />
+    <div class="oe_row oe_spaced">
+      <div class="oe_span6">
+        <div class="oe_demo oe_picture oe_screenshot">
+          <img src="assets/process_refund_with_stripe.jpg" alt="Process Refund with Stripe">
+        </div>
       </div>
-      <div class="step-content">
+      <div class="oe_span6">
+        <h3 style="color: #875a7b;">Step 6: Choose Stripe and Process the Refund</h3>
         <p>Complete the refund process using Stripe:</p>
         <ol>
           <li>Select <strong>Stripe</strong> as the payment method</li>
@@ -477,14 +203,13 @@
           <li>The system will communicate with Stripe to process the refund</li>
           <li>Wait for confirmation that the refund has been processed</li>
         </ol>
-        <p>The module automatically handles the communication with Stripe, ensuring the refund is processed correctly and funds are returned to the customer's original payment method.</p>
       </div>
     </div>
-
+    
     <!-- Step 7: Image on RIGHT -->
-    <h3 style="color: #875a7b; margin-top: 40px;">Step 7: Verify the Refund in the Order Section</h3>
-    <div class="step-container">
-      <div class="step-content">
+    <div class="oe_row oe_spaced">
+      <div class="oe_span6">
+        <h3 style="color: #875a7b;">Step 7: Verify the Refund in the Order Section</h3>
         <p>After processing the refund, verify its status:</p>
         <ol>
           <li>Navigate to the <strong>Orders</strong> section in the POS interface</li>
@@ -492,104 +217,97 @@
           <li>Check that the refund status shows as <strong>Completed</strong></li>
           <li>Verify that the refund amount matches what was processed</li>
         </ol>
-        <p>The system maintains a complete record of all refunds, making it easy to track and audit your refund history.</p>
       </div>
-      <div class="step-image">
-        <img src="assets/verify_refund_status.png" alt="Verify Refund in Orders" />
+      <div class="oe_span6">
+        <div class="oe_demo oe_picture oe_screenshot">
+          <img src="assets/verify_refund_status.jpg" alt="Verify Refund in Orders">
+        </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- Technical Requirements -->
-  <section class="oe_container" style="background-color: #f9f9f9;">
-    <h2 class="oe_slogan">Technical Requirements</h2>
-    <div style="max-width: 800px; margin: 0 auto;">
-      <ul style="list-style-type: none; padding: 0;">
-        <li style="padding: 10px 0; border-bottom: 1px solid #ddd;">
-          <strong>Odoo Version:</strong> Compatible with Odoo 17.0
-        </li>
-        <li style="padding: 10px 0; border-bottom: 1px solid #ddd;">
-          <strong>Required Modules:</strong> Point of Sale
-        </li>
-        <li style="padding: 10px 0; border-bottom: 1px solid #ddd;">
-          <strong>External Dependencies:</strong> Stripe Account with API Access
-        </li>
-        <li style="padding: 10px 0; border-bottom: 1px solid #ddd;">
-          <strong>Browser Compatibility:</strong> Chrome, Firefox, Safari, Edge
-        </li>
-        <li style="padding: 10px 0;">
-          <strong>Mobile Support:</strong> Fully responsive on tablets and mobile devices
-        </li>
-      </ul>
+<!-- TECHNICAL REQUIREMENTS -->
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan" style="color:#875A7B;">Technical Requirements</h2>
+    <div class="oe_span12">
+      <table class="table table-bordered">
+        <tr>
+          <td style="width: 30%;"><strong>Odoo Version</strong></td>
+          <td>Compatible with Odoo 17.0</td>
+        </tr>
+        <tr>
+          <td><strong>Required Modules</strong></td>
+          <td>Point of Sale, Restaurant</td>
+        </tr>
+        <tr>
+          <td><strong>External Dependencies</strong></td>
+          <td>Stripe Account with API Access</td>
+        </tr>
+        <tr>
+          <td><strong>Browser Compatibility</strong></td>
+          <td>Chrome, Firefox, Safari, Edge</td>
+        </tr>
+        <tr>
+          <td><strong>Mobile Support</strong></td>
+          <td>Fully responsive on tablets and mobile devices</td>
+        </tr>
+      </table>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- FAQ Section -->
-
-  <section class="oe_container">
-    <h2 class="oe_slogan">Frequently Asked Questions</h2>
+<!-- FAQ SECTION -->
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan" style="color:#875A7B;">Frequently Asked Questions</h2>
     
-    <div style="max-width: 800px; margin: 0 auto;">
+    <div class="oe_span12">
       <!-- Additional FAQ 1 -->
       <div style="margin-bottom: 20px;">
         <h4 style="color: #875a7b;">Can I use Stripe Refund with Odoo POS in any country?</h4>
         <p>Yes, Stripe supports payments in multiple countries. However, ensure that Stripe operates in your country by checking their official website.</p>
       </div>
-  
+
       <!-- Additional FAQ 2 -->
       <div style="margin-bottom: 20px;">
         <h4 style="color: #875a7b;">What types of payments can Stripe Refund process on Odoo POS?</h4>
         <p>Stripe supports various payment methods, including credit cards, debit cards, and digital wallets like Apple Pay and Google Pay.</p>
       </div>
-  
+
       <!-- Additional FAQ 3 -->
       <div style="margin-bottom: 20px;">
         <h4 style="color: #875a7b;">How long does it take to process refunds with Stripe on Odoo POS?</h4>
         <p>Refunds are typically processed instantly. However, it may take a few days for the amount to reflect in the customer’s account, depending on their bank.</p>
       </div>
-  
-      <!-- Additional FAQ 4
+
+      <!-- Additional FAQ 4 -->
       <div style="margin-bottom: 20px;">
         <h4 style="color: #875a7b;">Is there a transaction fee for using Stripe Refund with Odoo POS?</h4>
         <p>Yes, Stripe charges a transaction fee, which varies based on the type of payment and location. Refer to <a href="https://stripe.com/pricing" target="_blank">Stripe’s pricing page</a> for detailed information.</p>
-      </div> -->
-  
-      <!-- Additional FAQ 5 -->
-      <!-- <div style="margin-bottom: 20px;">
-        <h4 style="color: #875a7b;">What should I do if the refund option is not visible in Odoo POS?</h4>
-        <p>Ensure that the refund feature is enabled in your POS settings. If the issue persists, check your Stripe configuration or contact support.</p>
-      </div> -->
+      </div>
     </div>
-  </section>
-  
+  </div>
+</section>
 
-  <!-- Support Section -->
-  <!-- <section class="oe_container">
-    <h2 class="oe_slogan">Support</h2>
+<!-- SUPPORT SECTION -->
+<!-- <section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan" style="color:#875A7B;">Support</h2>
     
-    <div class="support" style="max-width: 800px; margin: 0 auto; text-align: center;">
-      <p style="font-size: 18px;">Need assistance with implementation or have questions about the module?</p>
+    <div class="oe_span12 text-center">
+      <p style="font-size: 16px;">Need assistance with implementation or have questions about the module?</p>
       <p>Our dedicated support team is ready to help you get the most out of the POS Stripe Refund module.</p>
       
-      <div style="margin: 30px 0;">
+      <div style="margin: 20px 0;">
         <p><strong>Email:</strong> <a href="mailto:support@example.com">support@example.com</a></p>
         <p><strong>Website:</strong> <a href="https://www.example.com" target="_blank">www.example.com</a></p>
         <p><strong>Documentation:</strong> <a href="https://www.example.com/docs" target="_blank">www.example.com/docs</a></p>
       </div>
-      
-      <a href="https://www.example.com/contact" class="cta-button">Contact Support</a>
     </div>
-  </section> -->
-
-  <!-- Footer Section -->
-  <!-- <section class="footer-section">
-    <p>© 2023 Your Company Name. All rights reserved.</p>
-    <p>
-      <a href="https://www.example.com/terms" target="_blank">Terms of Service</a> | 
-      <a href="https://www.example.com/privacy" target="_blank">Privacy Policy</a>
-    </p>
-  </section> -->
+  </div>
+</section> -->
 
 </body>
-
 </html>

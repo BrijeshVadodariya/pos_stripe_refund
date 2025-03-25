@@ -54,7 +54,7 @@ Features:
     # Odoo App Store Specific Fields
     'price': 49.99,  # Adjust as per your pricing strategy
     'currency': 'USD',
-    'images': ['static/description/banner.jpg'],  # Add a banner image (recommended size: 1280x720)
+    'images': ['static/description/banner.png'],  # Add a banner image (recommended size: 1280x720)
     'support': 'support@yourcompany.com',
     'maintainer': 'Micra Digital',
     'external_dependencies': {'python': [], 'bin': []},
