@@ -55,7 +55,9 @@ Features:
     'price': 49.99,  # Adjust as per your pricing strategy
     'currency': 'USD',
     'images': ['static/description/banner.png'],  # Add a banner image (recommended size: 1280x720)
-    'support': 'support@yourcompany.com',
+    'support': 'hello@micra.digitl',  # Your support email
+    # 'live_test_url': 'https://www.micra.digital/contact-us',  # URL to a live demo
+    # 'demo_video': 'https://www.youtube.com/watch?v=9Yam5Bd4J8c',  # URL to a video demo
     'maintainer': 'Micra Digital',
     'external_dependencies': {'python': [], 'bin': []},
 }
