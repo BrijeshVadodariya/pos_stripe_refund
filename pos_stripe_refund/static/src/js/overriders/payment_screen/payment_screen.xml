@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="pos_stripe_refund.PaymentScreenButtons"
+       t-inherit="point_of_sale.PaymentScreenValidate"
+       t-inherit-mode="extension"
+       owl="1">
+
+        <!-- Targeting the existing validation button div -->
+        <xpath expr="//t[@t-name='point_of_sale.PaymentScreenValidate']" position="replace">
+            <t t-name="point_of_sale.PaymentScreenValidate">
+
+                <!-- Show Refund Button for Negative Quantities -->
+                <t t-if="(currentOrder?.selected_orderline?.quantity) &lt; 0">
+                    <button class="control-button btn btn-primary rounded-0 fw-bolder fs-12"
+                        t-on-click="() => this.refund_payment()">
+                        <i class="oi oi-chevron-right" role="img" aria-label="Refund" title="Refund" />
+                        Refund
+                    </button>
+                </t>
+
+                <!-- For Small UI (Mobile) -->
+                <t t-elif="ui.isSmall">
+                    <div class="switchpane d-flex h-12">
+                        <button class="btn-switchpane validation-button btn btn-primary flex-fill py-4 rounded-0 fw-bolder fs-1"
+                            t-att-class="{ secondary: !(currentOrder.is_paid() and currentOrder._isValidEmptyOrder()) }"
+                            t-on-click="() => this.validateOrder()">
+                            <span class="next_text">Validate</span>
+                        </button>
+                    </div>
+                </t>
+
+                <!-- For Larger Screens (Desktop) -->
+                <t t-else="">
+                    <div class="button next validation btn btn-primary btn-lg py-5 rounded-0 d-flex flex-column align-items-center justify-content-center fw-bolder"
+                        t-attf-class="{{currentOrder.is_paid() and currentOrder._isValidEmptyOrder() ? 'highlight' : 'disabled'}}"
+                        t-on-click="() => this.validateOrder()">
+                        <div class="pay-circle d-flex align-items-center justify-content-center mb-2">
+                            <i class="oi oi-chevron-right" role="img" aria-label="Pay" title="Pay" />
+                        </div>
+                        <span class="next_text">Validate</span>
+                    </div>
+                </t>
+            </t>
+        </xpath>
+
+    </t>
+
+</templates>
