@@ -183,7 +183,7 @@ patch(PaymentScreen.prototype, {
    this.validateOrder();
    if (this.currentOrder && this.currentOrder.get_paymentlines) {
             let paymentLines = this.currentOrder.get_paymentlines();
-            if (Array.isArray(paymentLines) && paymentLines.length > 0 && paymentLines[0].name == 'stripe') {
+            if (Array.isArray(paymentLines) && paymentLines.length > 0 && paymentLines[0].name.toLowerCase() == 'stripe') {
                   const is_refunded = await this.rpc("/pos-self-order/refund-payment", {
                         "args":{
                               'amount': paymentLines[0].amount,
