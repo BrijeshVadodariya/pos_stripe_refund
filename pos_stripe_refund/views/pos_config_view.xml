@@ -1,0 +1,15 @@
+<odoo>
+    <record id="view_res_config_settings_pos_reload" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.pos.reload</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="point_of_sale.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='pos_payment_section']" position="inside">
+                <setting string="Force Payment"
+                         help="helps in removing dummy data from pos.">
+                    <field name="tick_payment_reload"/>
+                </setting>
+            </xpath>
+        </field>
+    </record>
+</odoo>
